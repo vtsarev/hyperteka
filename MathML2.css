@@ -1,0 +1,261 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* See https://github.com/fred-wang/mathml.css */
+   
+@namespace "http://www.w3.org/1998/Math/MathML";
+
+/* math */
+math {
+    display: inline;
+    text-indent: 0;
+}
+math[display="block"] {
+    display: block;
+    text-align: center;
+}
+
+/* fraction */
+mfrac {
+    display: inline-block !important;
+    vertical-align: -50%;
+    text-align:center;
+    border-collapse: collapse;
+}
+mfrac > * {
+    display: block !important;
+}
+mfrac > * + * {
+    display: inline-block !important;
+    vertical-align: top;
+}
+mfrac:not([linethickness="0"]) > *:first-child {
+    border-bottom: solid medium;
+}
+
+/* sub/sup scripts */
+msub > *:nth-child(2), msubsup > *:nth-child(2),
+mmultiscripts > *:nth-child(2n+2),
+mmultiscripts > mprescripts ~ *:nth-child(2n+3) {
+    font-size: 0.8em;
+    vertical-align: sub;
+}
+msup > *:nth-child(2), msubsup > *:nth-child(3),
+mmultiscripts > *:nth-child(2n+3),
+mmultiscripts > mprescripts ~ *:nth-child(2n+2) {
+    font-size: 0.8em;
+    vertical-align: super;
+}
+mprescripts:after {
+    content: ";";
+}
+
+/* under/over scripts */
+munder, mover, munderover {
+    display: inline-flex !important;
+    flex-direction: column;
+}
+munder > *:nth-child(2), munderover > *:nth-child(2) {
+    font-size: 0.8em;
+    order: +1;
+}
+mover > *:nth-child(2), munderover > *:nth-child(3) {
+    font-size: 0.8em;
+    order: -1;
+}
+munder {
+    vertical-align: text-top;
+}
+mover {
+    vertical-align: text-bottom;
+}
+munderover {
+    vertical-align: middle;
+}
+/* roots */
+msqrt, mroot {
+    display: inline-block; !important;
+		vertical-align: baseline;
+    margin-top: .15em;
+    margin-left: 1.5ex;
+    border-top: solid medium;
+    padding-right: .5ex;
+}
+msqrt::before {
+    margin-left: -1.15ex;
+    font-size: 110%;
+    content: "\221A";
+}
+mroot {
+    display: inline-flex !important;
+    margin-left: .5em;
+    vertical-align: middle;
+    border-top: solid thin;
+}
+mroot:before {
+    margin-left: -.5em;
+    content: "\221A";
+}
+mroot > *:nth-child(2) {
+    margin-right: .25em;
+    margin-left: -.75em;
+    font-size: 0.8em;
+    order: -1;
+}
+mfenced
+	{display:inline-table;
+	border-collapse:separate;
+	border-spacing:0.2ex 0;
+	white-space:nowrap;
+	margin:1px;}
+mfenced > *:first-child
+	{display:table-row;}
+mfenced > * + *
+	{display:none;}
+mfenced > *:before, mfenced > *:after
+	{display:table-cell;
+	content:"\A0";
+	background-repeat:no-repeat;
+	background-size:100% 100%;}
+mfenced > *:before
+	{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAABQCAYAAAAZQFV3AAABtElEQVR42s2ZK0hEURCGr8UiPhYVRJAFoxssFtsafDXRKLogNpNNDDazTSxiMYhoMdtWsAibtKhssCj4ALWIoM4s58Awdb7gD3+45eO8z5z/FgWnfnEfAWoTz4tHCJhCdsQDBGxKXBd3EbBl8a14kIBtiF+pMdsS/4pnCNic+Ed8SMAq4g/xM7HWetIEaFdrROtOEuySgE0kmHqB2FKNBLtP3yGtmtatRWGd4scEexF3RIHrpnV7xGRcG+BsFDZuYO/i9ihw3wCPicn4NMDFKHDJwNS9UeCBgTWJ2W0a4GkUVnbd3YwCaw44TY6fOnyQ3hjYE3FUfRngVRQ45Lp7FgVWHXA3Clyhl8y2A4ZvtyMHnIwCzx1wLAq8cMDRKLDhgMNR4J0DlqPABwcsRYFvDtgdBX47YPHvgHiX8UnBlw2+sPGthx8O+PGFH7D4FVAt4EsKv0bxi16FliIqvFjCyzm84FShJbEfR6Rox58V+MNHhT7NVPjjUYU+b1X4AxyPCFRoiKHCYxYVGgRloVGVCg/TVGjcl4UGklloZJqFhrpZaOychQbjWWh0b7co9nPBqvX74w/Kju1j59IjnwAAAABJRU5ErkJggg==");}
+mfenced > *:after
+	{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAABQCAYAAAAZQFV3AAABl0lEQVR42s3ZPyhFYRjH8ddiEa5cJaVbd2SwWGwM/m1yR3FKNpNNBpvZJossBonFbKMs6k4s6A4Wyp/CIoXfqXd4etbnOzj1Wz+97znv3+eklFJV6UvwM6TMK20k2q9sZxx7upRzZYpEB5RbZYl+p6/KOonOKL/KJokeKD/KHAWWY/RZ+VCGKbTIXS8/VIVCLzN6TIGNDJaZIMBySt5nsElN0VXTyhUC7FBeMviodBLormnlGgHOGvCaANuVd4OOEeiRAfcIcMGAn8TH6TVgmUWilS0D7hPgiQFbBLjhul2LgtMOLKJg1YHIe3wy4A0BXhnwKwFL2qnr9mAU3HHgOD10lqNg4cCtKDjpwMMoOOrAsyg44sCLKFh3YDMK1hx4FwV7HPgQBbsd+EbMZwt+/zsQ7zL+UfBhgw9sfOrhiwO+fOELLL4F4JsUvo3iGz16FMEPS/hxDj9w4kdi9NCOXyvwiw96NcMvj/j1Fr2A4yUCtIiBl1nwQhBaqkKLaXi5Dy1IoiVTtKiLlp3Rwjhaukd/LqC/P/4AwHbtY0GeJ20AAAAASUVORK5CYII=");}
+mfenced[open="["] > *:before
+	{border-style:solid;
+	border-width:1px 0 1px 1px;
+	background-image:none;}
+mfenced[close="]"] > *:after
+	{border-style:solid;
+	border-width:1px 1px 1px 0;
+	background-image:none;}
+
+/* menclose */
+menclose {
+  display: inline-table !important;
+  border-collapse: separate;
+  border-spacing: 0.4ex 0;
+}
+menclose[notation*="top"], menclose[notation*="actuarial"] {
+  border-top: solid thin;
+}
+menclose[notation*="bottom"], menclose[notation*="madruwb"] {
+    border-bottom: solid thin;
+}
+menclose[notation*="right"], menclose[notation*="actuarial"],
+menclose[notation*="madruwb"] {
+    border-right: solid thin;
+}
+menclose[notation*="left"] {
+    border-left: solid thin;
+}
+menclose[notation*="box"], menclose[notation*="roundedbox"],
+menclose[notation*="circle"] {
+    border: solid thin;
+}
+menclose[notation*="roundedbox"] {
+    border-radius: 15%;
+}
+menclose[notation*="circle"] {
+    border-radius: 50%;
+}
+menclose[notation*="horizontalstrike"] {
+    text-decoration: line-through;
+}
+
+/* table */
+mtable {
+    display: inline-table !important;
+    vertical-align: middle;
+}
+mtr {
+    display: table-row !important;
+}
+mtd {
+    display: table-cell !important;
+    padding: 0 0.5ex;
+}
+
+/* token elements */
+mspace {
+    margin: .2em;
+}
+mi {
+    font-style: italic;
+    padding:0;
+    margin: 0;
+}
+mo[largeop="true"]
+	{font-size:1.3em;
+	vertical-align:-0.1ex;}
+mo[form="infix"], * + mo
+	{padding:0; margin: 0 0.1ex;}
+mo[form="prefix"]
+	{padding:0 0 0 0.5ex;}
+mo[form="postfix"]
+	{padding:0 0.5ex 0 0;}
+mo[fence="true"], mo[separator="true"]
+	{padding:0;}
+ms:before, ms:after {
+    content:"\0022";
+}
+ms[lquote]:before {
+    content: attr(lquote);
+}
+ms[rquote]:after {
+    content: attr(rquote);
+}
+
+/* mathvariants */
+[mathvariant="bold"], [mathvariant="bold-italic"],
+[mathvariant="bold-sans-serif"], [mathvariant="sans-serif-bold-italic"] {
+    font-weight: bold;
+    font-style: normal;
+}
+[mathvariant="monospace"] {
+    font-family: monospace;
+    font-style: normal;
+}
+[mathvariant="sans-serif"],
+[mathvariant="bold-sans-serif"], [mathvariant="sans-serif-italic"],
+[mathvariant="sans-serif-bold-italic"] {
+    font-family: sans-serif;
+    font-style: normal;
+}
+[mathvariant="italic"], [mathvariant="bold-italic"],
+[mathvariant="sans-serif-italic"], [mathvariant="sans-serif-bold-italic"] {
+    font-style: italic;
+}
+[mathvariant="normal"] {
+    font-style: normal;
+}
+
+/* mphantom */
+mphantom {
+    visibility: hidden;
+}
+
+/* merror */
+merror {
+    outline: solid thin red;
+}
+merror:before {
+    content: "Error: ";
+}
+
+/* annotations */
+semantics > *:first-child {
+    display: inline;
+}
+annotation, annotation-xml {
+    font-family: monospace;
+    display: none !important;
+}
+math:active > semantics > *:first-child,
+math:active > semantics > *:first-child {
+    display: none !important;
+}
+math:active annotation:first-of-type {
+    display: inline !important;
+}
