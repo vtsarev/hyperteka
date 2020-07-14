@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Zenodo navigator</title>
+	<style>
+		video {height:100%;}
+	</style>
+	<script type="text/javascript">
+		var httpB1 = new XMLHttpRequest();
+		var httpB2 = new XMLHttpRequest();
+		var w;
+		function makehtml() {
+			var resp = '';
+			var doi = 'https://doi.org/10.5281/zenodo.'+document.getElementById('numb').value;
+			httpB1.onreadystatechange = function() {
+				if((httpB1.readyState == 4) && (httpB1.status == 200)) {
+					resp = httpB1.responseText;
+					var a = resp.replace(/(?:.|\n)+(<table class="table table-striped" >(?:.|\n)+?<\/table>)(?:.|\n)+/m,"$1");
+					document.getElementById("tbl").innerHTML = a;
+					var t = document.getElementById("tbl").querySelectorAll("a.filename");
+					for (var i = 0; i < t.length; i++) {
+						var h = "https://zenodo.org" + t[i].href.replace(/file:\/\/\/C:(.+)\?download=1/,"$1");
+						t[i].href = h;
+						t[i].setAttribute("onclick", "openhtml2(event)");
+						var s = h.split(".").pop().toLowerCase();
+						if(s=="html" || s=="htm") {
+							// t[i].outerHTML += '<input id="hash" type="text">'
+						}
+					}
+				}
+			}
+			httpB1.open("GET", doi, true);
+			httpB1.setRequestHeader("Content-Type", "text/html");
+			httpB1.send();
+		};
+		function openhtml2(event) {
+			var resp2 = '';
+			event.preventDefault();
+			event.stopPropagation();
+			var inphash = event.target.nextElementSibling;
+			var h = event.target.href;
+			var s = h.split(".").pop().toLowerCase();
+			switch(s) {
+				case "html": case "htm":
+					// var ht = resp.replace(/(?:.|\n)+<pre.*?>((?:.|\n)+?)<\/pre>(?:.|\n)+/m,"$1");
+					httpB2.onreadystatechange = function() {
+						if((httpB2.readyState == 4) && (httpB2.status == 200)) {
+							resp2 = httpB2.responseText;
+							var ht = resp2.replace(/<pre.*?>((?:.|\n)+)<\/pre>/m,"$1");
+							w = window.open("","_blank");
+							w.document.body.innerHTML = ht;
+						}
+					}
+					httpB2.open("GET", h, true);
+					httpB2.setRequestHeader("Content-Type", "text/html");
+					httpB2.send();
+					break;
+				case "mp4":
+					w = window.open("","_blank");
+					w.document.body.innerHTML='<video controls src="'+h+'">Your browser does not support the video tag.</video>';
+			}
+		};
+	</script>
+</head>
+<body>
+	<h4>Zenodo navigator.&nbsp;&nbsp;&nbsp;<a href="mailto:vtsarev@modpk.net">Author: Vladimir Tsarev</a></h4>
+	https://doi.org/10.5281/zenodo.<input id="numb" type="number" min="3900000" value="3909763" style="width:10ch;" onblur="makehtml()">
+	<div id="error"></div>
+	<div id="tbl"></div>
+</body>
+</html>
